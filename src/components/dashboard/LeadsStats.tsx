@@ -8,7 +8,6 @@ import {
   Workflow,
   Layers,
   PhoneCall,
-  CheckCircle2,
 } from 'lucide-react';
 
 interface LeadsStatsProps {

@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { SITE_CONFIG } from '@/config/site';
-import { LogOut, Zap, Shield, Building2 } from 'lucide-react';
+import { LogOut, Zap, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export function DashboardHeader() {

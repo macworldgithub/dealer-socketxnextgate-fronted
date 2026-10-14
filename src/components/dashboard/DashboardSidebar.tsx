@@ -107,21 +107,6 @@ export function DashboardSidebar() {
           })}
         </nav>
       </div>
-
-      {/* System Status Card */}
-      <div className="rounded-xl border border-white/10 bg-neutral-950 p-3.5 space-y-2">
-        <div className="flex items-center justify-between text-xs">
-          <span className="font-semibold text-white tracking-tight">Dealer Socket Core</span>
-          <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-neutral-900 text-neutral-300 border border-white/10">v2.4.0</span>
-        </div>
-        <div className="flex items-center justify-between text-[11px] text-neutral-400 pt-1.5 border-t border-white/10">
-          <span>Engine Status</span>
-          <span className="text-white font-medium flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            Operational
-          </span>
-        </div>
-      </div>
     </aside>
   );
 }

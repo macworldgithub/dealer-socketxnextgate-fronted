@@ -10,13 +10,9 @@ import {
   User,
   Mail,
   Phone,
-  Calendar,
-  Building2,
   Layers,
   MessageSquare,
   Tag,
-  DollarSign,
-  CheckCircle2,
 } from 'lucide-react';
 
 interface LeadDetailModalProps {

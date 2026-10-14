@@ -8,7 +8,7 @@ import { LeadsFilterBar } from '@/components/dashboard/LeadsFilterBar';
 import { LeadsTable } from '@/components/dashboard/LeadsTable';
 import { LeadDetailModal } from '@/components/dashboard/LeadDetailModal';
 import { NewLeadModal } from '@/components/dashboard/NewLeadModal';
-import { CheckCircle2, Zap } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [customers, setCustomers] = useState<CustomerLeadRecord[]>([]);
@@ -40,7 +40,6 @@ export default function DashboardPage() {
 
   const loadData = useCallback(async () => {
     try {
-      setIsLoading(true);
       const data = await leadsService.getCustomers(filters);
       setCustomers(data);
       const allStats = await leadsService.getStats();
@@ -53,8 +52,27 @@ export default function DashboardPage() {
   }, [filters]);
 
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    let ignore = false;
+    leadsService.getCustomers(filters).then(async (data) => {
+      if (!ignore) {
+        setCustomers(data);
+        const allStats = await leadsService.getStats();
+        if (!ignore) {
+          setStats(allStats);
+          setIsLoading(false);
+        }
+      }
+    }).catch((err) => {
+      if (!ignore) {
+        console.error('Failed to load leads:', err);
+        setIsLoading(false);
+      }
+    });
+
+    return () => {
+      ignore = true;
+    };
+  }, [filters]);
 
   const handleUpdateStage = async (customerId: string, newStage: string) => {
     try {
