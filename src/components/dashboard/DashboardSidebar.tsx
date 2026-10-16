@@ -6,10 +6,6 @@ import { usePathname } from 'next/navigation';
 import {
   Users,
   Zap,
-  Cpu,
-  BarChart3,
-  Settings,
-  Database,
 } from 'lucide-react';
 
 export function DashboardSidebar() {
@@ -21,32 +17,6 @@ export function DashboardSidebar() {
       href: '/dashboard',
       icon: Users,
       badge: 'Active',
-    },
-    {
-      name: 'Nextgate Feed',
-      href: '#',
-      icon: Zap,
-      badge: 'Live',
-    },
-    {
-      name: 'Automation Rules',
-      href: '#',
-      icon: Cpu,
-    },
-    {
-      name: 'Data Ingestion',
-      href: '#',
-      icon: Database,
-    },
-    {
-      name: 'Analytics & ROI',
-      href: '#',
-      icon: BarChart3,
-    },
-    {
-      name: 'System Config',
-      href: '#',
-      icon: Settings,
     },
   ];
 

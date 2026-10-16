@@ -5,10 +5,6 @@ export const SITE_CONFIG = {
   navItems: [
     { name: 'Dashboard', href: '/dashboard', icon: 'LayoutDashboard' },
     { name: 'Leads Pipeline', href: '/dashboard', icon: 'Users' },
-    { name: 'Nextgate Feed', href: '#', icon: 'Zap' },
-    { name: 'Automation Rules', href: '#', icon: 'Cpu' },
-    { name: 'Performance & KPI', href: '#', icon: 'BarChart3' },
-    { name: 'System Settings', href: '#', icon: 'Settings' },
   ],
   apiEndpoints: {
     auth: {

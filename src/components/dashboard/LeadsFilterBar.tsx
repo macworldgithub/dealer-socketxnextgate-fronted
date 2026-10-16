@@ -2,15 +2,13 @@
 
 import React from 'react';
 import { LeadFilterOptions } from '@/types/lead';
-import { Search, Plus, Zap, X, RotateCw } from 'lucide-react';
+import { Search, Plus, X, RotateCw } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 interface LeadsFilterBarProps {
   filters: LeadFilterOptions;
   onFilterChange: (newFilters: LeadFilterOptions) => void;
   onOpenNewLeadModal: () => void;
-  onSimulateIngest: () => void;
-  isSimulating?: boolean;
   onRefresh?: () => void;
   isRefreshing?: boolean;
 }
@@ -28,8 +26,6 @@ export function LeadsFilterBar({
   filters,
   onFilterChange,
   onOpenNewLeadModal,
-  onSimulateIngest,
-  isSimulating = false,
   onRefresh,
   isRefreshing = false,
 }: LeadsFilterBarProps) {
@@ -134,18 +130,6 @@ export function LeadsFilterBar({
             </Button>
           )}
 
-          {/* Simulate Ingest Button */}
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={onSimulateIngest}
-            isLoading={isSimulating}
-            leftIcon={<Zap className="w-3.5 h-3.5 text-slate-700" />}
-            className="text-xs font-semibold border-slate-300"
-            title="Simulates incoming Nextgate / Carsales webhook"
-          >
-            Simulate Ingest
-          </Button>
 
           {/* Create Lead Button */}
           <Button

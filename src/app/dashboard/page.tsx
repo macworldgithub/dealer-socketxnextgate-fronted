@@ -27,7 +27,6 @@ export default function DashboardPage() {
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const [isSimulating, setIsSimulating] = useState<boolean>(false);
   const [selectedCustomer, setSelectedCustomer] = useState<CustomerLeadRecord | null>(null);
   const [isNewLeadModalOpen, setIsNewLeadModalOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -119,52 +118,6 @@ export default function DashboardPage() {
     await loadData();
   };
 
-  const handleSimulateIngest = async () => {
-    setIsSimulating(true);
-    try {
-      const randomNames = [
-        { first: 'SARAH', last: 'JENNINGS', phone: '+61412890334', vehicle: '2026 XPeng G6 Long Range SUV', price: 68900 },
-        { first: 'LIAM', last: 'O\'CONNOR', phone: '+61423456789', vehicle: '2026 XPeng X9 Standard Range', price: 97930 },
-      ];
-      const selected = randomNames[Math.floor(Math.random() * randomNames.length)];
-
-      const created = await leadsService.createCustomer({
-        firstName: selected.first,
-        lastName: selected.last,
-        mobilePhone: selected.phone,
-        dealerName: 'Xpeng Dandenong',
-        lead: {
-          id: `lead-${Date.now()}`,
-          leadIdShort: Math.random().toString(36).substring(2, 8),
-          leadCreatedDate: new Date().toISOString(),
-          leadSource: 'carsales',
-          stage: 'New',
-          item: {
-            itemDescription: selected.vehicle,
-            price: selected.price,
-            color: 'Stellar Purple',
-            stockNumber: `P${Math.floor(100000 + Math.random() * 899999)}`,
-            odometer: 0,
-          },
-          conversations: [
-            {
-              conversationId: `conv-${Date.now()}`,
-              messageType: 'Message',
-              newMessageCounter: 1,
-            },
-          ],
-          allocatedPersonFullName: 'Devs',
-        },
-      });
-
-      showToast(
-        `⚡ Ingested lead from carsales: ${created.firstName} ${created.lastName} (${created.lead.item?.itemDescription})`
-      );
-      await loadData();
-    } finally {
-      setIsSimulating(false);
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -196,8 +149,6 @@ export default function DashboardPage() {
         filters={filters}
         onFilterChange={setFilters}
         onOpenNewLeadModal={() => setIsNewLeadModalOpen(true)}
-        onSimulateIngest={handleSimulateIngest}
-        isSimulating={isSimulating}
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
       />
