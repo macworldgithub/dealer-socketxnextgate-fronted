@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { LeadFilterOptions } from '@/types/lead';
-import { Search, Plus, Zap, X } from 'lucide-react';
+import { Search, Plus, Zap, X, RotateCw } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 interface LeadsFilterBarProps {
@@ -11,6 +11,8 @@ interface LeadsFilterBarProps {
   onOpenNewLeadModal: () => void;
   onSimulateIngest: () => void;
   isSimulating?: boolean;
+  onRefresh?: () => void;
+  isRefreshing?: boolean;
 }
 
 const STAGE_TABS: { label: string; value: string }[] = [
@@ -28,6 +30,8 @@ export function LeadsFilterBar({
   onOpenNewLeadModal,
   onSimulateIngest,
   isSimulating = false,
+  onRefresh,
+  isRefreshing = false,
 }: LeadsFilterBarProps) {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ ...filters, search: e.target.value });
@@ -106,6 +110,27 @@ export function LeadsFilterBar({
               className="text-xs text-slate-500 hover:text-slate-800"
             >
               Reset Filters
+            </Button>
+          )}
+
+          {/* Refresh Leads Button */}
+          {onRefresh && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={onRefresh}
+              isLoading={isRefreshing}
+              leftIcon={
+                <RotateCw
+                  className={`w-3.5 h-3.5 text-slate-700 ${
+                    isRefreshing ? 'animate-spin' : ''
+                  }`}
+                />
+              }
+              className="text-xs font-semibold border-slate-300"
+              title="Refresh leads from Nexgate API"
+            >
+              Refresh
             </Button>
           )}
 

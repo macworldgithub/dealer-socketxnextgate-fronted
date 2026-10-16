@@ -26,6 +26,7 @@ export default function DashboardPage() {
     source: 'all',
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [isSimulating, setIsSimulating] = useState<boolean>(false);
   const [selectedCustomer, setSelectedCustomer] = useState<CustomerLeadRecord | null>(null);
   const [isNewLeadModalOpen, setIsNewLeadModalOpen] = useState<boolean>(false);
@@ -38,18 +39,37 @@ export default function DashboardPage() {
     }, 4000);
   };
 
-  const loadData = useCallback(async () => {
+  const loadData = useCallback(async (forceRefresh = false) => {
     try {
-      const data = await leadsService.getCustomers(filters);
+      if (forceRefresh) {
+        setIsRefreshing(true);
+      } else {
+        setIsLoading(true);
+      }
+      const data = await leadsService.getCustomers({
+        ...filters,
+        ...(forceRefresh ? { refresh: true } : {}),
+      });
       setCustomers(data);
       const allStats = await leadsService.getStats();
       setStats(allStats);
+      if (forceRefresh) {
+        showToast('Leads refreshed from Nexgate API');
+      }
     } catch (err) {
       console.error('Failed to load leads:', err);
+      if (forceRefresh) {
+        showToast('Failed to refresh leads from Nexgate');
+      }
     } finally {
       setIsLoading(false);
+      setIsRefreshing(false);
     }
   }, [filters]);
+
+  const handleRefresh = () => {
+    loadData(true);
+  };
 
   useEffect(() => {
     let ignore = false;
@@ -178,6 +198,8 @@ export default function DashboardPage() {
         onOpenNewLeadModal={() => setIsNewLeadModalOpen(true)}
         onSimulateIngest={handleSimulateIngest}
         isSimulating={isSimulating}
+        onRefresh={handleRefresh}
+        isRefreshing={isRefreshing}
       />
 
       {/* Leads Table */}

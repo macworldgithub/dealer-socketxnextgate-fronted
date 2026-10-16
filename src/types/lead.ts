@@ -107,6 +107,7 @@ export interface LeadFilterOptions {
   stage?: string | 'all';
   source?: string | 'all';
   dealer?: string | 'all';
+  refresh?: boolean | string;
 }
 
 export interface LeadStats {
